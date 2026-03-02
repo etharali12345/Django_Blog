@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="container pb-4">
+  <h2 class="title text-center mb-4">All Blog Posts</h2>
+  <div class="d-flex flex-wrap justify-content-center gap-4 p-0">
+    {% for post in posts %}
+    <div
+      class="card card-color shadow border rounded-4 post-card"
+      style="width: 15rem; height: 20rem"
+    >
+      {% if post.image %}
+      <img
+        src="{{ post.image.url }}"
+        class="card-img-top rounded-top-4"
+        alt="{{ post.title }}"
+        style="height: 180px; object-fit: cover"
+      />
+      {% else %}
+      <img
+        src="{% static 'core/images/upload.png' %}"
+        class="card-img-top rounded-top-4"
+        alt="no image"
+        style="height: 180px; object-fit: cover"
+      />
+      {% endif %}
+
+      <div class="card-body">
+        <h5 class="card-title fw-semibold" style="color: var(--text)">
+          {{ post.title }}
+        </h5>
+        <p class="small mb-2" style="color: var(--text); opacity: 0.6">
+          By {{ post.author.username }} | {{ post.created_at|date:"M d, Y" }}
+        </p>
+        <p class="card-text" style="color: var(--text)">
+          {{ post.content|truncatewords:20 }}
+        </p>
+      </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-info">No posts available yet.</div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

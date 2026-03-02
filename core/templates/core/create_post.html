@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div
+  class="container col-5 mx-5 py-3 shadow-light rounded-4 d-flex flex-column align-items-center card-color border mb-3"
+>
+  <h2 class="title">Create Post</h2>
+
+  <form method="POST" class="w-100 px-3" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="input-image" id="drop-area">
+        <input
+          type="file"
+          accept="image/*"
+          id="input-image"
+          name="image"
+          hidden
+        />
+        <div id="img-view">
+          <img src="{% static 'core/images/upload.png' %}" alt="icon" />
+          <p>upload image</p>
+        </div>
+      </label>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label mb-0">Title:</label>
+      <input
+        type="text"
+        name="{{ form.title.html_name }}"
+        id="{{ form.title.id_for_label }}"
+        class="form-control"
+        placeholder="Enter title"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Content</label>
+      <textarea
+        name="{{ form.content.html_name }}"
+        id="{{ form.content.id_for_label }}"
+        class="form-control"
+        placeholder="Enter content"
+        rows="5"
+      ></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 my-2">Publish</button>
+  </form>
+
+  {% if form.errors %}
+  <p style="color: red">Please fix the errors below.</p>
+  {% endif %}
+</div>
+
+<script>
+  const inputFile = document.getElementById("input-image");
+  const imgView = document.getElementById("img-view");
+
+  inputFile.addEventListener("change", function () {
+    if (inputFile.files && inputFile.files[0]) {
+      const img = inputFile.files[0];
+      const imgLink = URL.createObjectURL(img);
+      imgView.style.backgroundImage = `url(${imgLink})`;
+      imgView.textContent = "";
+    }
+  });
+</script>
+{% endblock %}

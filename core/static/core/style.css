@@ -1,0 +1,160 @@
+:root {
+  --bg: #ffffff;
+  --bg-card: #f9f8fa;
+  --text: #000000;
+  --text-grey: #bbbbbb;
+  --varPurple: linear-gradient(80deg, #2119b9, #b15eff);
+  --textPurple: linear-gradient(90deg, #4f46e5, #a855f7);
+  --nav-color: rgb(61, 61, 61);
+  --shadow-light-blue-md:
+    rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --text: #ffffff;
+  --nav-color: rgb(17, 17, 17);
+  --bg-card: #444444;
+}
+
+body {
+  font-family: "Helvetica", "Arial", sans-serif;
+  color: #1a1a1a;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.shadow-light {
+  box-shadow: var(--shadow-light-blue-md);
+}
+
+nav {
+  font-size: 1.1rem;
+}
+
+.navbar {
+  background-color: var(--nav-color) !important;
+}
+
+.card-color {
+  background-color: var(--bg-card) !important;
+}
+
+.title {
+  font-family: "Pacifico", cursive;
+  background: var(--textPurple);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0;
+}
+
+h2.title {
+  padding: 10px 5px;
+}
+
+.btn-primary {
+  background: var(--varPurple);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(80deg, #0d0870, #602499);
+  border: none;
+}
+
+label {
+  font-weight: 600;
+}
+
+input::placeholder {
+  color: var(--text-grey) !important;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 26px;
+  transition: 0.3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: #4f46e5;
+}
+
+input:checked + .slider::before {
+  transform: translateX(24px);
+}
+
+#drop-area {
+  width: 100%;
+  height: 200px;
+  border-radius: 5px;
+  border: 3px dashed #bbbbbb;
+  background-color: rgba(255, 255, 255, 0.466);
+}
+
+#img-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#img-view img {
+  object-fit: contain;
+  width: 100px;
+  height: auto;
+}
+
+.post-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.post-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(78, 70, 229, 0.349) !important;
+}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div
+  class="container col-5 mx-5 py-3 shadow-light rounded-4 d-flex flex-column align-items-center card-color border mb-3"
+>
+  <h2 class="title">Profile</h2>
+
+  <form method="POST" class="w-100 px-3" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3 col-6 mx-auto">
+      <label for="input-image" id="drop-area">
+        <input
+          type="file"
+          accept="image/*"
+          id="input-image"
+          name="profile_pic"
+          hidden
+        />
+        <div
+          id="img-view"
+          class="rounded-circle"
+          data-img="{% if profile.profile_pic %}{{ profile.profile_pic.url }}{% endif %}"
+        >
+          {% if not profile.profile_pic %}
+          <img src="{% static 'core/images/upload.png' %}" alt="icon" />
+          <p>Upload profile picture</p>
+          {% endif %}
+        </div>
+      </label>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label mb-0">Username:</label>
+      <input
+        type="text"
+        name="{{ user_form.username.html_name }}"
+        id="{{ user_form.username.id_for_label }}"
+        class="form-control {% if user_form.username.errors %}is-invalid{% endif %}"
+        placeholder="Enter username"
+        value="{{ request.user.username }}"
+      />
+      {% for error in user_form.username.errors %}
+      <div class="invalid-feedback">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label mb-0">Email:</label>
+      <input
+        type="email"
+        name="{{ user_form.email.html_name }}"
+        id="{{ user_form.email.id_for_label }}"
+        class="form-control {% if user_form.email.errors %}is-invalid{% endif %}"
+        placeholder="Enter email"
+        value="{{ request.user.email }}"
+      />
+      {% for error in user_form.email.errors %}
+      <div class="invalid-feedback">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 my-2">
+      Save Changes
+    </button>
+  </form>
+
+  {% if user_form.errors or profile_form.errors %}
+  <p style="color: red">Please fix the errors below.</p>
+  {% endif %}
+</div>
+
+<script>
+  const inputFile = document.getElementById("input-image");
+  const imgView = document.getElementById("img-view");
+  const imgUrl = imgView.getAttribute("data-img");
+
+  inputFile.addEventListener("change", function () {
+    if (inputFile.files && inputFile.files[0]) {
+      const img = inputFile.files[0];
+      const imgLink = URL.createObjectURL(img);
+      imgView.style.backgroundImage = `url(${imgLink})`;
+      imgView.style.backgroundSize = "cover";
+      imgView.style.backgroundPosition = "center";
+      imgView.textContent = "";
+    }
+  });
+
+  if (imgUrl) {
+    imgView.style.backgroundImage = `url(${imgUrl})`;
+    imgView.style.backgroundSize = "cover";
+    imgView.style.backgroundPosition = "center";
+    imgView.innerHTML = "";
+  }
+</script>
+{% endblock %}
