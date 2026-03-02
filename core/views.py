@@ -2,9 +2,6 @@ from django.shortcuts import render, redirect
 from .forms import BlogPostForm, BlogPost, RegisterForm, UpdateUserForm, UpdateProfileForm, Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
-from .serializers import BlogPostSerializer
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
 def register(request):
     if request.method == 'POST':
@@ -36,16 +33,9 @@ def post_list(request):
     return render(request, 'core/post_list.html', {'posts': posts})
 
 
-@api_view(['GET'])
-def api_posts(request):
-    posts = BlogPost.objects.all()
-    serializer = BlogPostSerializer(posts, many=True)
-    return Response(serializer.data)
-
-
 @login_required
 def profile(request):
-    profile, created = Profile.objects.get_or_create(user=request.user)
+    profile, _ = Profile.objects.get_or_create(user=request.user)
     if profile.profile_pic and not profile.profile_pic.name:
         profile.profile_pic = None
         profile.save()
